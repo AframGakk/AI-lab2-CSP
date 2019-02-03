@@ -40,13 +40,22 @@ public class Main {
 		String[] pet = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
 		
 		// TODO create variables, e.g.,
-		// Variable var1 = new Variable("name of the variable 1");
-		// Variable var2 = new Variable("name of the variable 2");
+		Variable var1 = new Variable("Color");
+		Variable var2 = new Variable("Nationality");
+		Variable var3 = new Variable("Cigaretts");
+		Variable var4 = new Variable("Drink");
+		Variable var5 = new Variable("Pet");
+		Variable var6 = new Variable("House");
 		
 		List<Variable> variables = null;
 		// TODO add all your variables to this list, e.g.,
-		// variables.add(var1);
-		// variables.add(var2);
+		//Væri betra að gera þetta allt sér lista og leita í þeim ? Map ??
+		variables.add(var1);
+		variables.add(var2);
+		variables.add(var3);
+		variables.add(var4);
+		variables.add(var5);
+		variables.add(var6);
 		
 		csp = new CSP(variables);
 
@@ -55,6 +64,16 @@ public class Main {
 		// csp.setDomain(var1, d1);
 		// Domain d2 = new Domain(new Integer[]{1, 2});
 		// csp.setDomain(var2, d2);
+		Domain d1 = new Domain(colors);
+		csp.setDomain(var1, d1);
+		Domain d2 = new Domain(nations);
+		csp.setDomain(var2, d2);
+		Domain d3 = new Domain(cigarettes);
+		csp.setDomain(var3, d3);
+		Domain d4 = new Domain(drink);
+		csp.setDomain(var4, d4);
+		Domain d5 = new Domain(pet);
+		csp.setDomain(var5, d5);
 		
 		// TODO add constraints, e.g.,
 		// csp.addConstraint(new NotEqualConstraint(var1, var2)); // meaning var1 != var2
