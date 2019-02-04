@@ -87,10 +87,8 @@ public class Main {
 		for (Variable variable : variables) {
 			if(variable.getName().equals("Norwegian"))
 				csp.setDomain(variable, new Domain(new Integer[]{1}));
-				
 			else if(variable.getName().equals("Milk"))
-				csp.setDomain(variable, new Domain(new Integer[]{3}));
-				
+				csp.setDomain(variable, new Domain(new Integer[]{3}));	
 			else 
 				csp.setDomain(variable, domain);
 		}
