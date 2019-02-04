@@ -1,4 +1,5 @@
-import java.util.List;
+import java.util.*;
+
 
 import aima.core.search.csp.Assignment;
 import aima.core.search.csp.CSP;
@@ -36,9 +37,10 @@ public class Main {
 		String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
 		String[] nations = {"Englishman", "Spaniard", "Norwegian", "Ukrainian", "Japanese"};
 		String[] cigarettes = {"Old Gold", "Kools", "Chesterfields", "Lucky Strike", "Parliaments"};
-		String[] drink = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
-		String[] pet = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
-		
+		String[] drinks = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
+		String[] pets = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
+
+		/*
 		// TODO create variables, e.g.,
 		Variable var1 = new Variable("Color");
 		Variable var2 = new Variable("Nationality");
@@ -46,7 +48,31 @@ public class Main {
 		Variable var4 = new Variable("Drink");
 		Variable var5 = new Variable("Pet");
 		Variable var6 = new Variable("House");
-		
+		*/
+
+		HashMap<String, Variable> variables = new HashMap<>();
+
+		for(String color : colors) {
+			variables.put(color, new Variable(color));
+		}
+
+		for ( String nation : nations) {
+			variables.put(nation, new Variable(nation));
+		}
+
+		for ( String cigarette : cigarettes ) {
+			variables.put(cigarette, new Variable(cigarette));
+		}
+
+		for ( String drink : drinks ) {
+			variables.put(drink, new Variable(drink));
+		}
+
+		for ( String pet : pets ) {
+			variables.put(pet, new Variable(pet));
+		}
+
+		/*
 		List<Variable> variables = null;
 		// TODO add all your variables to this list, e.g.,
 		//Væri betra að gera þetta allt sér lista og leita í þeim ? Map ??
@@ -56,14 +82,16 @@ public class Main {
 		variables.add(var4);
 		variables.add(var5);
 		variables.add(var6);
+		*/
 		
-		csp = new CSP(variables);
+		//csp = new CSP(variables);
 
 		// TODO set domains of variables, e.g.,
 		// Domain d1 = new Domain(new String[]{"foo", "bar"});
 		// csp.setDomain(var1, d1);
 		// Domain d2 = new Domain(new Integer[]{1, 2});
 		// csp.setDomain(var2, d2);
+		/*
 		Domain d1 = new Domain(colors);
 		csp.setDomain(var1, d1);
 		Domain d2 = new Domain(nations);
@@ -74,12 +102,78 @@ public class Main {
 		csp.setDomain(var4, d4);
 		Domain d5 = new Domain(pet);
 		csp.setDomain(var5, d5);
+		*/
+		for (Variable variable : variables.values()) {
+			csp.setDomain(variable, new Domain(new ArrayList<Integer>(Arrays.asList(1,2,3,4,5))));
+		}
+
 		
 		// TODO add constraints, e.g.,
 		// csp.addConstraint(new NotEqualConstraint(var1, var2)); // meaning var1 != var2
 		// csp.addConstraint(new EqualConstraint(var1, var2)); // meaning var1 == var2
 		// csp.addConstraint(new SuccessorConstraint(var1, var2)); // meaning var1 == var2 + 1
-		// csp.addConstraint(new DifferByOneConstraint(var1, var2)); // meaning var1 == var2 + 1 or var1 == var2 - 1 
+		// csp.addConstraint(new DifferByOneConstraint(var1, var2)); // meaning var1 == var2 + 1 or var1 == var2 - 1
+
+
+		// Pairwise constraint
+		for (String color : colors) {
+			for (String color_2 : colors) {
+				if (!color.equals(color_2)) {
+					csp.addConstraint(new NotEqualConstraint(variables.get(color), variables.get(color_2)));
+				}
+			}
+		}
+
+		for (String nation : nations) {
+			for (String nation_2 : nations) {
+				if (!nation.equals(nation_2)) {
+					csp.addConstraint(new NotEqualConstraint(variables.get(nation), variables.get(nation_2)));
+				}
+			}
+		}
+
+		for (String cigarette : cigarettes) {
+			for (String cigarette_2 : cigarettes) {
+				if (!cigarette.equals(cigarette_2)) {
+					csp.addConstraint(new NotEqualConstraint(variables.get(cigarette), variables.get(cigarette_2)));
+				}
+			}
+		}
+
+		for (String drink : drinks) {
+			for (String drink_2 : drinks) {
+				if (!drink.equals(drink_2)) {
+					csp.addConstraint(new NotEqualConstraint(variables.get(drink), variables.get(drink_2)));
+				}
+			}
+		}
+
+		for (String pet : pets) {
+			for (String pet_2 : pets) {
+				if (!pet.equals(pet_2)) {
+					csp.addConstraint(new NotEqualConstraint(variables.get(pet), variables.get(pet_2)));
+				}
+			}
+		}
+
+		// Constraints from description
+		csp.addConstraint(new EqualConstraint(variables.get("Englishman"), variables.get("Red")));
+		csp.addConstraint(new EqualConstraint(variables.get("Spaniard"), variables.get("Dog")));
+		csp.addConstraint(new EqualConstraint(variables.get("Coffee"), variables.get("Green")));
+		csp.addConstraint(new EqualConstraint(variables.get("Ukranian"), variables.get("Tea")));
+		csp.addConstraint(new SuccessorConstraint(variables.get("Green"), variables.get("Ivory")));
+		csp.addConstraint(new EqualConstraint(variables.get("Old Gold"), variables.get("Snails")));
+		csp.addConstraint(new EqualConstraint(variables.get("Kools"), variables.get("Yellow")));
+
+		// TODO: finna leið fyrir milk is drunk in the middle house
+		// TODO: finna leið fyrir norwegian lives in the first house
+
+		csp.addConstraint(new DifferByOneConstraint(variables.get("Chesterfields"), variables.get("Fox")));
+		csp.addConstraint(new DifferByOneConstraint(variables.get("Kools"), variables.get("Horse")));
+		csp.addConstraint(new EqualConstraint(variables.get("Lucky Strike"), variables.get("Orange juice")));
+		csp.addConstraint(new EqualConstraint(variables.get("Japanese"), variables.get("Parliments")));
+		csp.addConstraint(new DifferByOneConstraint(variables.get("Norwegian"), variables.get("Blue")));
+
 		
 		return csp;
 	}
