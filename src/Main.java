@@ -108,13 +108,13 @@ public class Main {
 		// csp.addConstraint(new DifferByOneConstraint(var1, var2)); // meaning var1 == var2 + 1 or var1 == var2 - 1
 
 		// Constraints from description
-		csp.addConstraint(new EqualConstraint(natList.get(0), colList.get(0)));
-		csp.addConstraint(new EqualConstraint(natList.get(2), petList.get(2)));
-		csp.addConstraint(new EqualConstraint(drinkList.get(3), colList.get(1)));
-		csp.addConstraint(new EqualConstraint(natList.get(3), drinkList.get(2)));
-		csp.addConstraint(new SuccessorConstraint(colList.get(1), colList.get(2)));
-		csp.addConstraint(new EqualConstraint(cigsList.get(0), petList.get(3)));
-		csp.addConstraint(new EqualConstraint(cigsList.get(1), colList.get(3)));
+		csp.addConstraint(new EqualConstraint(natList.get(0), colList.get(0))); // rétt
+		csp.addConstraint(new EqualConstraint(natList.get(1), petList.get(1))); // rétt
+		csp.addConstraint(new EqualConstraint(drinkList.get(3), colList.get(1))); // rétt
+		csp.addConstraint(new EqualConstraint(natList.get(3), drinkList.get(2))); // rétt
+		csp.addConstraint(new SuccessorConstraint(colList.get(1), colList.get(2))); // rétt
+		csp.addConstraint(new EqualConstraint(cigsList.get(0), petList.get(3))); // rétt
+		csp.addConstraint(new EqualConstraint(cigsList.get(1), colList.get(3))); // rétt
 
 		//csp.setDomain(variables.getName("Milk"), new Domain(new Integer[]{3}));
 		//csp.setDomain(variables.getName("Norwegian"), new Domain(new Integer[]{1}));
@@ -122,11 +122,11 @@ public class Main {
 		// TODO: finna leið fyrir milk is drunk in the middle house
 		// TODO: finna leið fyrir norwegian lives in the first house
 
-		csp.addConstraint(new DifferByOneConstraint(cigsList.get(2), petList.get(2)));
-		csp.addConstraint(new DifferByOneConstraint(cigsList.get(1), petList.get(4)));
-		csp.addConstraint(new EqualConstraint(cigsList.get(3), drinkList.get(1)));
-		csp.addConstraint(new EqualConstraint(natList.get(4), cigsList.get(4)));
-		csp.addConstraint(new DifferByOneConstraint(natList.get(2), colList.get(4)));
+		csp.addConstraint(new DifferByOneConstraint(cigsList.get(2), petList.get(2))); // rétt
+		csp.addConstraint(new DifferByOneConstraint(cigsList.get(1), petList.get(4))); // rétt
+		csp.addConstraint(new EqualConstraint(cigsList.get(3), drinkList.get(1))); // rétt
+		csp.addConstraint(new EqualConstraint(natList.get(4), cigsList.get(4))); // rétt
+		csp.addConstraint(new DifferByOneConstraint(natList.get(2), colList.get(4))); // rétt
 
 		for (int i = 0; i < 5 ; i++) {
 			for(int j = i + 1; j < 5; j++){
