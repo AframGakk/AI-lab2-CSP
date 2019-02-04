@@ -50,26 +50,32 @@ public class Main {
 		Variable var6 = new Variable("House");
 		*/
 
+		List<Variable> toInit = new ArrayList<>();
 		HashMap<String, Variable> variables = new HashMap<>();
 
 		for(String color : colors) {
 			variables.put(color, new Variable(color));
+			toInit.add(new Variable(color));
 		}
 
 		for ( String nation : nations) {
 			variables.put(nation, new Variable(nation));
+			toInit.add(new Variable(nation));
 		}
 
 		for ( String cigarette : cigarettes ) {
 			variables.put(cigarette, new Variable(cigarette));
+			toInit.add(new Variable(cigarette));
 		}
 
 		for ( String drink : drinks ) {
 			variables.put(drink, new Variable(drink));
+			toInit.add(new Variable(drink));
 		}
 
 		for ( String pet : pets ) {
 			variables.put(pet, new Variable(pet));
+			toInit.add(new Variable(pet));
 		}
 
 		/*
@@ -103,8 +109,11 @@ public class Main {
 		Domain d5 = new Domain(pet);
 		csp.setDomain(var5, d5);
 		*/
+		csp = new CSP(toInit);
+
+		Integer[] domainList = {1,2,3,4,5};
 		for (Variable variable : variables.values()) {
-			csp.setDomain(variable, new Domain(new ArrayList<Integer>(Arrays.asList(1,2,3,4,5))));
+			csp.setDomain(variable, new Domain(domainList));
 		}
 
 		
@@ -160,10 +169,13 @@ public class Main {
 		csp.addConstraint(new EqualConstraint(variables.get("Englishman"), variables.get("Red")));
 		csp.addConstraint(new EqualConstraint(variables.get("Spaniard"), variables.get("Dog")));
 		csp.addConstraint(new EqualConstraint(variables.get("Coffee"), variables.get("Green")));
-		csp.addConstraint(new EqualConstraint(variables.get("Ukranian"), variables.get("Tea")));
+		csp.addConstraint(new EqualConstraint(variables.get("Ukrainian"), variables.get("Tea")));
 		csp.addConstraint(new SuccessorConstraint(variables.get("Green"), variables.get("Ivory")));
 		csp.addConstraint(new EqualConstraint(variables.get("Old Gold"), variables.get("Snails")));
 		csp.addConstraint(new EqualConstraint(variables.get("Kools"), variables.get("Yellow")));
+
+		csp.setDomain(variables.get("Milk"), new Domain(new Integer[]{3}));
+		csp.setDomain(variables.get("Norwegian"), new Domain(new Integer[]{1}));
 
 		// TODO: finna leið fyrir milk is drunk in the middle house
 		// TODO: finna leið fyrir norwegian lives in the first house
@@ -171,7 +183,7 @@ public class Main {
 		csp.addConstraint(new DifferByOneConstraint(variables.get("Chesterfields"), variables.get("Fox")));
 		csp.addConstraint(new DifferByOneConstraint(variables.get("Kools"), variables.get("Horse")));
 		csp.addConstraint(new EqualConstraint(variables.get("Lucky Strike"), variables.get("Orange juice")));
-		csp.addConstraint(new EqualConstraint(variables.get("Japanese"), variables.get("Parliments")));
+		csp.addConstraint(new EqualConstraint(variables.get("Japanese"), variables.get("Parliaments")));
 		csp.addConstraint(new DifferByOneConstraint(variables.get("Norwegian"), variables.get("Blue")));
 
 		
