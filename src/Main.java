@@ -126,7 +126,17 @@ public class Main {
 		csp.addConstraint(new DifferByOneConstraint(cigsList.get(1), petList.get(4)));
 		csp.addConstraint(new EqualConstraint(cigsList.get(3), drinkList.get(1)));
 		csp.addConstraint(new EqualConstraint(natList.get(4), cigsList.get(4)));
-		csp.addConstraint(new DifferByOneConstraint(cigsList.get(2), colList.get(4)));
+		csp.addConstraint(new DifferByOneConstraint(natList.get(2), colList.get(4)));
+
+		for (int i = 0; i < 5 ; i++) {
+			for(int j = i + 1; j < 5; j++){
+				csp.addConstraint(new NotEqualConstraint(colList.get(i), colList.get(j)));
+				csp.addConstraint(new NotEqualConstraint(natList.get(i), natList.get(j)));
+				csp.addConstraint(new NotEqualConstraint(cigsList.get(i), cigsList.get(j)));
+				csp.addConstraint(new NotEqualConstraint(drinkList.get(i), drinkList.get(j)));
+				csp.addConstraint(new NotEqualConstraint(petList.get(i), petList.get(j)));
+			}
+		}
 
 
 		// Pairwise constraint
