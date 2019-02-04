@@ -2,9 +2,9 @@ import aima.core.search.csp.Assignment;
 import aima.core.search.csp.Variable;
 
 
-public class EqualConstraint extends BinaryConstraint {
+public class NotEqualConstraint extends BinaryConstraint {
 
-	public EqualConstraint(Variable var1, Variable var2) {
+	public NotEqualConstraint(Variable var1, Variable var2) {
 		super(var1, var2);
 	}
 
