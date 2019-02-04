@@ -33,32 +33,23 @@ public class Main {
 //		# The Norwegian lives next to the blue house.
 //
 //		Now, who drinks water? Who owns the zebra?
+		// The Norwegian drinks water. The Japanese owns the Zebra.
 				
 		String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
 		String[] nations = {"Englishman", "Spaniard", "Norwegian", "Ukrainian", "Japanese"};
 		String[] cigarettes = {"Old Gold", "Kools", "Chesterfields", "Lucky Strike", "Parliaments"};
 		String[] drinks = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
 		String[] pets = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
-		Integer[] houses = {1, 2, 3, 4, 5}; //þarf þetta?
 
-		/*
-		// TODO create variables, e.g.,
-		Variable var1 = new Variable("Color");
-		Variable var2 = new Variable("Nationality");
-		Variable var3 = new Variable("Cigaretts");
-		Variable var4 = new Variable("Drink");
-		Variable var5 = new Variable("Pet");
-		Variable var6 = new Variable("House");
-		*/
-
+		// Lists
 		List<Variable> variables = new ArrayList<Variable>();
-		//HashMap<String, Variable> variables = new HashMap<String, Variable>();
 		List<Variable> colList = new ArrayList<Variable>();
 		List<Variable> natList = new ArrayList<Variable>();
 		List<Variable> cigsList = new ArrayList<Variable>();
 		List<Variable> drinkList = new ArrayList<Variable>();
 		List<Variable> petList = new ArrayList<Variable>();
 
+		// Adding all variables to corresponding lists
 		for(String color : colors) {
 			colList.add(new Variable(color));
 		}
@@ -78,56 +69,47 @@ public class Main {
 		for (String pet : pets ) {
 			petList.add(new Variable(pet));
 		}
-
-		for(int i = 0; i < 5; i++) {
-			variables.add(colList.get(i));
-			variables.add(natList.get(i));
-			variables.add(cigsList.get(i));
-			variables.add(drinkList.get(i));
-			variables.add(petList.get(i));
-		}
+		
+		// Collecting all variables for Csp return value list
+		variables.addAll(colList);
+		variables.addAll(natList);
+		variables.addAll(cigsList);
+		variables.addAll(drinkList);
+		variables.addAll(petList);
 
 		csp = new CSP(variables);
 
-		//Integer[] domainList = {1,2,3,4,5};
-		Domain domain = new Domain(houses);
+		// Building the domain.
+		// No constraints for Norwegian in house 1 and
+		// Milk in house 3, so we give them specific domains
+		Integer[] domainList = {1,2,3,4,5};
+		Domain domain = new Domain(domainList);
 		for (Variable variable : variables) {
 			if(variable.getName().equals("Norwegian"))
 				csp.setDomain(variable, new Domain(new Integer[]{1}));
-			if(variable.getName().equals("Milk"))
+				
+			else if(variable.getName().equals("Milk"))
 				csp.setDomain(variable, new Domain(new Integer[]{3}));
-			else
+				
+			else 
 				csp.setDomain(variable, domain);
 		}
 
-		
-		// TODO add constraints, e.g.,
-		// csp.addConstraint(new NotEqualConstraint(var1, var2)); // meaning var1 != var2
-		// csp.addConstraint(new EqualConstraint(var1, var2)); // meaning var1 == var2
-		// csp.addConstraint(new SuccessorConstraint(var1, var2)); // meaning var1 == var2 + 1
-		// csp.addConstraint(new DifferByOneConstraint(var1, var2)); // meaning var1 == var2 + 1 or var1 == var2 - 1
-
 		// Constraints from description
-		csp.addConstraint(new EqualConstraint(natList.get(0), colList.get(0))); // rétt
-		csp.addConstraint(new EqualConstraint(natList.get(1), petList.get(1))); // rétt
-		csp.addConstraint(new EqualConstraint(drinkList.get(3), colList.get(1))); // rétt
-		csp.addConstraint(new EqualConstraint(natList.get(3), drinkList.get(2))); // rétt
-		csp.addConstraint(new SuccessorConstraint(colList.get(1), colList.get(2))); // rétt
-		csp.addConstraint(new EqualConstraint(cigsList.get(0), petList.get(3))); // rétt
-		csp.addConstraint(new EqualConstraint(cigsList.get(1), colList.get(3))); // rétt
+		csp.addConstraint(new EqualConstraint(natList.get(0), colList.get(0)));
+		csp.addConstraint(new EqualConstraint(natList.get(1), petList.get(1)));
+		csp.addConstraint(new EqualConstraint(drinkList.get(3), colList.get(1)));
+		csp.addConstraint(new EqualConstraint(natList.get(3), drinkList.get(2)));
+		csp.addConstraint(new SuccessorConstraint(colList.get(1), colList.get(2)));
+		csp.addConstraint(new EqualConstraint(cigsList.get(0), petList.get(3)));
+		csp.addConstraint(new EqualConstraint(cigsList.get(1), colList.get(3)));
+		csp.addConstraint(new DifferByOneConstraint(cigsList.get(2), petList.get(2)));
+		csp.addConstraint(new DifferByOneConstraint(cigsList.get(1), petList.get(4)));
+		csp.addConstraint(new EqualConstraint(cigsList.get(3), drinkList.get(1)));
+		csp.addConstraint(new EqualConstraint(natList.get(4), cigsList.get(4)));
+		csp.addConstraint(new DifferByOneConstraint(natList.get(2), colList.get(4)));
 
-		//csp.setDomain(variables.getName("Milk"), new Domain(new Integer[]{3}));
-		//csp.setDomain(variables.getName("Norwegian"), new Domain(new Integer[]{1}));
-
-		// TODO: finna leið fyrir milk is drunk in the middle house
-		// TODO: finna leið fyrir norwegian lives in the first house
-
-		csp.addConstraint(new DifferByOneConstraint(cigsList.get(2), petList.get(2))); // rétt
-		csp.addConstraint(new DifferByOneConstraint(cigsList.get(1), petList.get(4))); // rétt
-		csp.addConstraint(new EqualConstraint(cigsList.get(3), drinkList.get(1))); // rétt
-		csp.addConstraint(new EqualConstraint(natList.get(4), cigsList.get(4))); // rétt
-		csp.addConstraint(new DifferByOneConstraint(natList.get(2), colList.get(4))); // rétt
-
+		//Pairwise constraint
 		for (int i = 0; i < 5 ; i++) {
 			for(int j = i + 1; j < 5; j++){
 				csp.addConstraint(new NotEqualConstraint(colList.get(i), colList.get(j)));
@@ -137,62 +119,6 @@ public class Main {
 				csp.addConstraint(new NotEqualConstraint(petList.get(i), petList.get(j)));
 			}
 		}
-
-
-		// Pairwise constraint
-		/*for (String color : colors) { 
-			for (String color_2 : colors) {
-				if (!color.equals(color_2)) {
-					csp.addConstraint(new NotEqualConstraint(variables.get(color), variables.get(color_2)));
-				}
-			}
-		}
-
-		for (String nation : nations) {
-			for (String nation_2 : nations) {
-				if (!nation.equals(nation_2)) {
-					csp.addConstraint(new NotEqualConstraint(variables.get(nation), variables.get(nation_2)));
-				}
-			}
-		}
-
-		for (String cigarette : cigarettes) {
-			for (String cigarette_2 : cigarettes) {
-				if (!cigarette.equals(cigarette_2)) {
-					csp.addConstraint(new NotEqualConstraint(variables.get(cigarette), variables.get(cigarette_2)));
-				}
-			}
-		}
-
-		for (String drink : drinks) {
-			for (String drink_2 : drinks) {
-				if (!drink.equals(drink_2)) {
-					csp.addConstraint(new NotEqualConstraint(variables.get(drink), variables.get(drink_2)));
-				}
-			}
-		}
-
-		for (String pet : pets) {
-			for (String pet_2 : pets) {
-				if (!pet.equals(pet_2)) {
-					csp.addConstraint(new NotEqualConstraint(variables.get(pet), variables.get(pet_2)));
-				}
-			}
-		}
-		*/
-
-		/* Auka shit
-		for(String[] prop: new String[][]{colors, nations, cigarettes, drinks, pets}) {
-			for(int i = 0; i < prop.length; i++) {
-				for(int j = 0; j < prop.length; j++) {
-					csp.addConstraint(new NotEqualConstraint(variables.get(prop[i]), variables.get(prop[j])));
-				}
-			}
-		}
-
-		*/
-
-		//System.out.print(variable);
 		
 		return csp;
 	}
