@@ -112,6 +112,7 @@ public class Main {
 		csp = new CSP(toInit);
 
 		Integer[] domainList = {1,2,3,4,5};
+		Domain domain = new Domain(domainList);
 		for (Variable variable : variables.values()) {
 			csp.setDomain(variable, new Domain(domainList));
 		}
@@ -164,6 +165,8 @@ public class Main {
 				}
 			}
 		}
+
+
 
 		// Constraints from description
 		csp.addConstraint(new EqualConstraint(variables.get("Englishman"), variables.get("Red")));
